@@ -117,7 +117,7 @@ async function fetchkupotKlali() {
             stiya60: stiya60    
           });
 
-          console.log(datanetunimKlaliX); 
+          
       }
       
       
