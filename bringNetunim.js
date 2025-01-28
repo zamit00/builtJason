@@ -61,7 +61,6 @@ const bituach=['הראל פנסיה וגמל','כלל פנסיה וגמל',
     await fetchkupotKlali();
     await fetchtsuaaHodshi();
     await fetchNechasim();
-    console.log(datanetunimKlaliX);
  }
 
 
@@ -200,37 +199,38 @@ async function fetchtsuaaHodshi() {
   }
 
   async function fetchNechasim() {
-    fetch('nechasim.xml')
-      .then(response => response.text()) 
-      .then(nechsimstring => {
-        const parser = new DOMParser(); 
-        const xmlNechasim = parser.parseFromString(nechsimstring, "application/xml"); 
+    try {
+        const response = await fetch('nechasim.xml');
+        if (!response.ok) {
+            throw new Error(`שגיאה בטעינת הקובץ: ${response.status}`);
+        }
+        const nechsimstring = await response.text();
+        const parser = new DOMParser();
+        const xmlNechasim = parser.parseFromString(nechsimstring, "application/xml");
+
         const rows = xmlNechasim.getElementsByTagName("Row");
-        let shiurMenayut=0;var ramatsikona;
         datanetunimKlaliX.forEach(item => {
-            const idKupa = item.mh; 
-            
-            
+            const idKupa = item.mh;
+
             for (const row of rows) {
                 const mhkupa1 = row.querySelector("ID_KUPA")?.textContent || '';
                 const sugneches = row.querySelector("ID_SUG_NECHES")?.textContent || '';
                 const schumsugneches = row.querySelector("SCHUM_SUG_NECHES")?.textContent || '';
                 const ahuzsugneches = row.querySelector("ACHUZ_SUG_NECHES")?.textContent || '';
                 const shemsugneches = row.querySelector("SHM_SUG_NECHES")?.textContent || '';
-                
+
                 if (mhkupa1 && Number(mhkupa1) === Number(idKupa)) {
                     const target = datanetunimKlaliX.find(item => item.mh === idKupa);
-            
+
                     if (target) {
                         const schumkvutzaKey = `kvutzaSchum${sugneches}`;
                         const ahuzkvutzaKey = `kvutzaAhuz${sugneches}`;
                         const sugkvutzaKey = `kvutzaSug${sugneches}`;
-            
+
                         target[schumkvutzaKey] = schumsugneches;
                         target[ahuzkvutzaKey] = ahuzsugneches;
                         target[sugkvutzaKey] = shemsugneches;
-                        
-            
+
                         if (Number(sugneches) === 4751) {
                             const shiurMenayut = Number(ahuzsugneches);
                             target.ramatsikon = calculateRiskLevel(shiurMenayut);
@@ -238,16 +238,15 @@ async function fetchtsuaaHodshi() {
                     }
                 }
             }
-            
-
-        alert("הסתיימה הטעינה");
-
         });
-       
 
-      })
-        .catch(error => console.error('Error:', error));
-  }
+        alert("הטעינה הסתיימה בהצלחה!");
+    } catch (error) {
+        console.error("שגיאה בתהליך הטעינה:", error);
+    }
+}
+
+
 
   function calculateRiskLevel(shiurMenayut) {
     if (shiurMenayut < 30) return 'נמוכה';
