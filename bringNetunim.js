@@ -240,7 +240,7 @@ async function fetchtsuaaHodshi() {
             }
             
 
-
+        alert("הסתיימה הטעינה");
 
         });
        
