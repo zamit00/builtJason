@@ -85,6 +85,7 @@ async function fetchkupotKlali() {
           const ochlosiyayaad = row.getElementsByTagName("UCHLUSIYAT_YAAD")[0]?.textContent ||  '';
           const mhkupa = row.getElementsByTagName("ID")[0]?.textContent ||  '';
           const mas = row.getElementsByTagName("HITMAHUT_MISHNIT")[0]?.textContent ||  '';
+const masmishni=row.getElementsByTagName('HITMAHUT_MISHNIT')[0]?.textContent || '';
           const tesuam = row.getElementsByTagName("TSUA_MITZTABERET_LETKUFA")[0]?.textContent ||  '';
           const tesuam36 = row.getElementsByTagName("TSUA_MITZTABERET_36_HODASHIM")[0]?.textContent ||  '';
           const tesuam60 = row.getElementsByTagName("TSUA_MITZTABERET_60_HODASHIM")[0]?.textContent ||  '';
@@ -108,6 +109,7 @@ async function fetchkupotKlali() {
             mozar: mozar, 
             tesuam: Number(tesuam), 
             mas: mas, 
+masmishni:masmishni,
             yitra: yitratnehasim, 
             tesuam36: Number(tesuam36), 
             tesuam60: Number(tesuam60),
