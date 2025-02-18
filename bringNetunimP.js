@@ -239,7 +239,7 @@ async function makejason() {
         const blob = new Blob([json], { type: "application/json" });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'dataJason.json';
+        link.download = 'dataJasonP.json';
         link.click();
 
         console.log("הקובץ נוצר בהצלחה!");
