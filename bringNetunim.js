@@ -161,12 +161,14 @@ async function fetchtsuaaHodshi() {
 
 
                 let cumulativeReturn = 1;
-                let startOfYear = false;
+                let startOfYear = false; const target = datanetunimKlaliX.find(itema => itema.mh === idKupa);let t=1;
     
                 rowsForIdKupa.forEach(row => {
                     const tsuaNominaliBfoal = row.getElementsByTagName("TSUA_NOMINALI_BFOAL")[0]?.textContent;
                     const tkfDivuach = row.getElementsByTagName("TKF_DIVUACH")[0]?.textContent;
-    
+                    const schumkvutzaKey = `tesua${t}`;
+                    target[schumkvutzaKey]=tsuaNominaliBfoal+"="+tkfDivuach;
+                    t=t+1;
                     if (tsuaNominaliBfoal && tkfDivuach) {
                         const year = tkfDivuach.substring(0, 4);
                         const month = tkfDivuach.substring(4, 6);
@@ -187,7 +189,7 @@ async function fetchtsuaaHodshi() {
                 if (startOfYear) {
                     idKupaMap[idKupa] = cumulativeReturn;
                 }
-                const target = datanetunimKlaliX.find(itema => itema.mh === idKupa);
+               
                 target.tusaAharona = Number(tsuaNominaliBfoal);
                 target.tesuaMitchilatshana = ((cumulativeReturn - 1) * 100).toFixed(2);
             });
