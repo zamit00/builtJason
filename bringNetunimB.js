@@ -1,4 +1,4 @@
-let datanetunimKlaliX=[];
+let datanetunimKlaliXB=[];
 const excludedKupaNames = ['קיימות', '50-60','קצבה','עד 50','לבני 50',
     'לגילאי 50','50 עד','עד 60','60 ומעלה','50 ומטה'
 ];
@@ -97,7 +97,7 @@ async function fetchkupotKlali() {
             !tarsiyum &&
             Number(yitratnehasim) > 0
         ) {
-          datanetunimKlaliX.push({
+          datanetunimKlaliXB.push({
             mh: mhkupa, 
             shemkupa: shemkupa, 
             mozar: mozar, 
@@ -139,7 +139,7 @@ async function fetchtsuaaHodshi() {
             const idKupaMap = {};
     
             // 1. עבור כל איבר ב-datanetunimKlali
-            datanetunimKlaliX.forEach(item => {
+            datanetunimKlaliXB.forEach(item => {
                 const idKupa = item.mh;  
     
                 // 2. סינון השורות לפי ה-ID_KUPA הנוכחי
@@ -149,7 +149,7 @@ async function fetchtsuaaHodshi() {
     
                 var lastRow = rowsForIdKupa[rowsForIdKupa.length - 1];
                 var tsuaNominaliBfoal = lastRow.getElementsByTagName("TSUA_HODSHIT")[0].textContent;
-                var target = datanetunimKlaliX.find(itema => itema.mh === idKupa);
+                var target = datanetunimKlaliXB.find(itema => itema.mh === idKupa);
                 let cumulativeReturn = 1;
                 let startOfYear = false;
                 
@@ -205,7 +205,7 @@ async function fetchtsuaaHodshi() {
         const xmlNechasim = parser.parseFromString(nechsimstring, "application/xml");
 
         const rows = xmlNechasim.getElementsByTagName("ROW");
-        datanetunimKlaliX.forEach(item => {
+        datanetunimKlaliXB.forEach(item => {
             const idKupa = item.mh;
 
             for (const row of rows) {
@@ -217,7 +217,7 @@ async function fetchtsuaaHodshi() {
                 const shemsugneches = row.querySelector("SHM_SUG_NECHES")?.textContent || '';
 
                 if (mhkupa1 && Number(mhkupa1) === Number(idKupa)) {
-                    const target = datanetunimKlaliX.find(item => item.mh === idKupa);
+                    const target = datanetunimKlaliXB.find(item => item.mh === idKupa);
 
                     if (target) {
                         const schumkvutzaKey = `kvutzaSchum${sugneches}`;
@@ -257,7 +257,7 @@ async function makejason() {
     
 
         // המרת הנתונים לפורמט JSON
-        const json = JSON.stringify(datanetunimKlaliX, null, 2);
+        const json = JSON.stringify(datanetunimKlaliXB, null, 2);
 
         // יצירת הקובץ
         const blob = new Blob([json], { type: "application/json" });
